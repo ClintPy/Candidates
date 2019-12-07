@@ -60,16 +60,20 @@ class candidatesController {
     }
 
     static updateCandidate(req,res){
-        const  id  = req.params;
+        const  id  = req.params.id;
         Candidates.findOneAndUpdate({ _id: id }, {
-            $set: req.body
-        }).then(result => {
-            res.status(201).json({
-                message: "Updated one Candidate",
-                candidate: result
-            })
-        }).catch( err => {
-            res.status(400).json({ err })
+            $set : req.body
+        }, (err, doc) => {
+            if (err) {
+                res.status(400).json({
+                    err
+                })
+            } else {
+                res.status(201).json({
+                    message: "Updated one Candidate",
+                    candidate: doc
+                })
+            }
         })
     }
 
